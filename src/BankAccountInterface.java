@@ -10,7 +10,6 @@ public class BankAccountInterface extends JFrame implements ActionListener {
   private JPanel welcomeScreen, menuScreen;
   private double balance = 0.0;
 
-
   BankAccountInterface() {
     setTitle("Bank Account");
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -22,10 +21,12 @@ public class BankAccountInterface extends JFrame implements ActionListener {
     GridBagConstraints gbc = new GridBagConstraints();
     gbc.insets = new Insets(5, 5, 5, 5);
 
+    // Get users initial balance
     initialBalanceLabel = new JLabel("What is your initial balance? ");
     initialBalanceField = new JTextField(10);
     submitButton = new JButton("Submit");
     submitButton.addActionListener(this);
+    // position labels and button
     gbc.gridx = 0;
     gbc.gridy = 0;
     welcomeScreen.add(initialBalanceLabel, gbc);
@@ -34,7 +35,7 @@ public class BankAccountInterface extends JFrame implements ActionListener {
     gbc.gridx = 0;
     gbc.gridy = 1;
     gbc.gridwidth = 2;
-
+    // Add content to panel
     welcomeScreen.add(submitButton, gbc);
 
     // Menu screen
@@ -74,6 +75,7 @@ public class BankAccountInterface extends JFrame implements ActionListener {
     setContentPane(welcomeScreen);
   }
 
+  // Create an event handler
   @Override
   public void actionPerformed(ActionEvent event) {
     // Each action should validate the input
@@ -81,7 +83,7 @@ public class BankAccountInterface extends JFrame implements ActionListener {
       try {
         balance += Double.parseDouble(initialBalanceField.getText());
         balanceField.setText(String.valueOf(balance));
-        // Switch screen
+        // Switch screen to menu screen
         setContentPane(menuScreen);
         repaint();
         revalidate();
@@ -90,7 +92,7 @@ public class BankAccountInterface extends JFrame implements ActionListener {
       } 
     } else if (event.getSource() == depositButton) {
       try {
-        // Deposit balance
+        // Deposit balance to bank account
         balance += Double.parseDouble(actionField.getText());
         balanceField.setText(String.valueOf(balance));
         actionField.setText("0.00");
@@ -99,7 +101,7 @@ public class BankAccountInterface extends JFrame implements ActionListener {
       } 
     } else if (event.getSource() == withdrawButton) {
       try {
-        // Withdraw balance
+        // Withdraw balance from bank account
         balance -= Double.parseDouble(actionField.getText());
         balanceField.setText(String.valueOf(balance));
         actionField.setText("0.00");
