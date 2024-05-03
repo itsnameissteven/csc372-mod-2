@@ -75,39 +75,46 @@ public class BankAccountInterface extends JFrame implements ActionListener {
     setContentPane(welcomeScreen);
   }
 
+  // Will switch screen on first submit 
+  public void switchScreen() {
+    try {
+      balance += Double.parseDouble(initialBalanceField.getText());
+      balanceField.setText(String.valueOf(balance));
+      // Switch screen to menu screen
+      setContentPane(menuScreen);
+      repaint();
+      revalidate();
+      pack();
+    } catch (Exception e) {
+      JOptionPane.showMessageDialog(this, "Please enter a number greater than 0");
+    } 
+  }
+
+  // Will deposit or withdraw cash into bank account depending on boolean value.
+  public void depositOrWithdrawCash(boolean isDeposit) {
+    try {
+      if(isDeposit) {
+        balance += Double.parseDouble(actionField.getText());
+      } else {
+        balance -= Double.parseDouble(actionField.getText());
+      }
+      balanceField.setText(String.valueOf(balance));
+      actionField.setText("0.00");
+    } catch (Exception e) {
+      JOptionPane.showMessageDialog(this, "Please enter a number greater than 0");
+    } 
+  }
+
   // Create an event handler
   @Override
   public void actionPerformed(ActionEvent event) {
     // Each action should validate the input
     if(event.getSource() == submitButton) {
-      try {
-        balance += Double.parseDouble(initialBalanceField.getText());
-        balanceField.setText(String.valueOf(balance));
-        // Switch screen to menu screen
-        setContentPane(menuScreen);
-        repaint();
-        revalidate();
-      } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Please enter a valid number");
-      } 
+      switchScreen();
     } else if (event.getSource() == depositButton) {
-      try {
-        // Deposit balance to bank account
-        balance += Double.parseDouble(actionField.getText());
-        balanceField.setText(String.valueOf(balance));
-        actionField.setText("0.00");
-      } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Please enter a valid number");
-      } 
+      depositOrWithdrawCash(true);
     } else if (event.getSource() == withdrawButton) {
-      try {
-        // Withdraw balance from bank account
-        balance -= Double.parseDouble(actionField.getText());
-        balanceField.setText(String.valueOf(balance));
-        actionField.setText("0.00");
-      } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Please enter a valid number");
-      } 
+      depositOrWithdrawCash(false);
     }
   }
 
